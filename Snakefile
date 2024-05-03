@@ -3,8 +3,7 @@ configfile: "./config.yaml"
 from pathlib import Path
 
 SAMPLES = pd.read_csv(config["samples"])
-
-
+#hey this is new code
 def get_genomes(wildcards):
     pid = wildcards.project_id
     primary = SAMPLES[SAMPLES["ccgp_project_id"] == pid]["primary_ref"].item()
