@@ -19,7 +19,7 @@ def tabulate_mutations(files, output, file_name):
             data_output.append([name, total_mutations, mut_bp_total, mut_bp_mean, mut_bp_std])
             if name in ["sv_del", "sv_ins", "sv_inv"]:
                 total_structural_variants += total_mutations
-    df_output = pd.DataFrame(data_output, columns=['Bed_Type', 'Total_Mutations', 'Mutation_BP_Count', 'Mean', 'Std_Dev'])
+    df_output = pd.DataFrame(data_output, columns=['Bed_Type', 'Total_Mutations', 'Mutation_BP_Total', 'Mean', 'Std_Dev'])
     df_output.to_csv(output, sep='\t', index=False)
 
     return output, total_structural_variants
