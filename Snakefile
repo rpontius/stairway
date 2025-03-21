@@ -48,48 +48,12 @@ rule download_refgenome:
     shell:
         """
         mkdir -p {params.outdir}
-        datasets download genome accession --exclude-gff3 --exclude-protein --exclude-rna --filename {params.dataset} {wildcards.refGenome} \
-        && 7z x {params.dataset} -aoa -o{params.outdir} || unzip -o {params.dataset} -d {params.outdir} \
-        && cat {params.outdir}/ncbi_dataset/data/{wildcards.refGenome}/*.fna > {output.ref} && samtools faidx {output.ref}
+        datasets download genome accession {wildcards.refGenome} --filename {params.dataset}
+        sleep 30
+        7z x {params.dataset} -aoa -o{params.outdir} || unzip -o {params.dataset} -d {params.outdir}
+        cat {params.outdir}/ncbi_dataset/data/{wildcards.refGenome}/*.fna > {output.ref} && samtools faidx {output.ref}
         """
 
-
-# rule download_refgenome:
-#     output:
-#         dataset = "projects/{project_id}/genome/{hap}/{refGenome}_dataset.zip"
-#     params:
-#         outdir = "projects/{project_id}/genome/{hap}/{refGenome}"
-#     conda:
-#         "envs/refGenome.yml"
-#     log:
-#         "projects/{project_id}/logs/{refGenome}/{hap}/download_ref/log.txt"
-#     benchmark:
-#         "benchmarks/{project_id}/{refGenome}/{hap}/download_ref/benchmark.txt"
-#     shell:
-#         """
-#         mkdir -p {params.outdir}
-#         datasets download genome accession --filename {output.dataset} {wildcards.refGenome}
-#         """
-
-# rule unzip_refgenome:
-#     input:
-#         dataset = "projects/{project_id}/genome/{hap}/{refGenome}_dataset.zip"
-#     output:
-#         ref = "projects/{project_id}/genome/{hap}/{refGenome}.fa",
-#     params:
-#         #dataset = "projects/{project_id}/genome/{hap}/{refGenome}_dataset.zip",
-#         outdir = "projects/{project_id}/genome/{hap}/{refGenome}"
-#     conda:
-#         "envs/refGenome.yml"
-#     log:
-#         "projects/{project_id}/logs/{refGenome}/{hap}/unzip_ref/log.txt"
-#     benchmark:
-#         "benchmarks/{project_id}/{refGenome}/{hap}/unzip_ref/benchmark.txt"
-#     shell:
-#         """
-#         7z x {input.dataset} -aoa -o{params.outdir} || unzip -o {input.dataset} -d {params.outdir} \
-#         && cat {params.outdir}/ncbi_dataset/data/{wildcards.refGenome}/*.fna > {output.ref} && samtools faidx {output.ref}
-#         """
 
 rule prepare_pav_input:
     input:
