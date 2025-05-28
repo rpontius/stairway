@@ -3,8 +3,8 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - ncbi-datasets-cli==11.25.1
-  # - ncbi-datasets-cli==16.41.0
+  # - ncbi-datasets-cli==11.25.1
+  - ncbi-datasets-cli==17.2.0
   - p7zip==16.02
   - pigz==2.6
   - unzip==6.00

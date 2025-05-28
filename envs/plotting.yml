@@ -5,3 +5,4 @@ channels:
 dependencies:
   - r-base=4.3.3
   - r-tidyverse
+  - r-stringi=1.7.12

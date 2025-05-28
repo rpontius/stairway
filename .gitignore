@@ -3,3 +3,6 @@ msmc-tools
 msmc2_Linux
 projects
 .snakemake
+profiles
+conda_envs
+benchmarks

@@ -6,10 +6,10 @@ suppressMessages({
 pid = snakemake@params[[1]]
 generations = snakemake@params[[3]]
 mutation_rate = snakemake@params[[2]]
-msmc_input = snakemake@input[[1]]
-msmc_input_split = snakemake@input[[2]]
-plot_output = snakemake@output[[1]]
-plot_output_split = snakemake@output[[2]]
+msmc_input = snakemake@input[[2]]
+msmc_input_split = snakemake@input[[1]]
+plot_output = snakemake@output[[2]]
+plot_output_split = snakemake@output[[1]]
 
 data<-read.table(msmc_input, header=TRUE)
 plot.title = pid

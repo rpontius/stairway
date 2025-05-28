@@ -4,7 +4,7 @@ import os
 
 
 
-def tabulate_mutations(files, output, file_name):
+def tabulate_mutations(files, output, file_name, mutation_types):
     #with open(output, 'w') as out:
     data_output = []
     total_structural_variants = 0
@@ -16,10 +16,10 @@ def tabulate_mutations(files, output, file_name):
             mut_bp_total = df['SVLEN'].sum()
             mut_bp_mean = df['SVLEN'].mean()
             mut_bp_std = df['SVLEN'].std()
-            data_output.append([name, total_mutations, mut_bp_total, mut_bp_mean, mut_bp_std])
-            if name in ["sv_del", "sv_ins", "sv_inv"]:
+            data_output.append([mutation_types.get(name, name), total_mutations, mut_bp_total, mut_bp_mean, mut_bp_std])
+            if name in ["sv_inv", "indel_del", "indel_ins"]:
                 total_structural_variants += total_mutations
-    df_output = pd.DataFrame(data_output, columns=['Bed_Type', 'Total_Mutations', 'Mutation_BP_Total', 'Mean', 'Std_Dev'])
+    df_output = pd.DataFrame(data_output, columns=['Mutation_Type', 'Total_Mutations', 'Mutation_BP_Total', 'Mean', 'Std_Dev'])
     df_output.to_csv(output, sep='\t', index=False)
 
     return output, total_structural_variants
@@ -45,18 +45,17 @@ def main():
     indel_del_f = snakemake.params["indel_del"]
     indel_ins_f = snakemake.params["indel_ins"]
     snv_snv_f = snakemake.params["snv_snv"]
-    sv_del_f = snakemake.params["sv_del"]
-    sv_ins_f = snakemake.params["sv_ins"]
     sv_inv_f = snakemake.params["sv_inv"]
+
     output = snakemake.output["summary_file"]
 
     hetsep = snakemake.params["hetsep"]
 
-    file_list = [indel_del_f, indel_ins_f, snv_snv_f, sv_del_f, sv_ins_f, sv_inv_f]
-    file_name = ["indel_del", "indel_ins", "snv_snv", "sv_del", "sv_ins", "sv_inv"]
+    file_list = [indel_del_f, indel_ins_f, snv_snv_f, sv_inv_f]
+    file_name = ["indel_del", "indel_ins", "snv_snv", "sv_inv"]
+    mutation_types = {"indel_del": "Deletion", "indel_ins": "Insertion", "sv_inv": "Inversion", "snv_snv": "SNV"}
 
-
-    output_file, structural_variants = tabulate_mutations(file_list, output, file_name)
+    output_file, structural_variants = tabulate_mutations(file_list, output, file_name, mutation_types)
     hetsep_count(hetsep, output_file, structural_variants)
 
 if __name__ == "__main__":
