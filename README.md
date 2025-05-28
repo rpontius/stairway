@@ -4,7 +4,7 @@
 
 This workflow is designed to infer an organisms effective population size through time using the Multiple Sequentially Markovian Coalescent 2 (MSMC2) method. This software requires access to an NCBI reference genome (both primary and alternative accessions are needed).
 
-## Prerequisites
+## Dependencies
 
 - Python 3.10
 - Snakemake (7.32.3 reccomended)
